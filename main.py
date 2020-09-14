@@ -1,7 +1,6 @@
 import pygame
 from checkers.constants import *
-from checkers.board import Board
-from checkers.piece import Piece
+from checkers.game import Game
 
 FPS = 60
 
@@ -17,21 +16,20 @@ def get_pos_by_mouseclick(pos):
 def main():
     run = True
     clock = pygame.time.Clock()
-    board = Board()
+    game = Game(WIN)
 
     while run:
         clock.tick(FPS)
 
         for event in pygame.event.get():
-            if event == pygame.QUIT:
+            if event.type == pygame.QUIT:
                 run = False
+                
             if event.type == pygame.MOUSEBUTTONDOWN:
                 row, col = get_pos_by_mouseclick(pygame.mouse.get_pos())
-                piece = board.get_piece(row, col)
-                #board.move(piece, 4, 3)
-        
-        board.draw(WIN)
-        pygame.display.update()
+                game.select(row, col)
+                
+        game.update()
     
     pygame.quit()
 
